@@ -252,6 +252,14 @@ function trackTyping() {
   });
 }
 
+// -------------------- LINKIFY --------------------
+function linkify(text) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  return text.replace(urlRegex, (url) => {
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+  });
+}
+
 // -------------------- SEND MESSAGE --------------------
 window.sendMessage = async function () {
   const msg = document.getElementById("message").value.trim();
@@ -320,7 +328,7 @@ function loadMessages(convId) {
         div.dataset.id = msgId;
         div.innerHTML = `
           <small class="msg-username">${username}</small>
-          <span class="msg-text">${data.text}</span>
+          <span class="msg-text">${linkify(data.text)}</span>
           <span class="msg-meta">
             <small class="msg-time">${time}</small>
             ${isMe ? `<span class="${receiptClass}">${receiptSymbol}</span>` : ""}

@@ -1,3 +1,9 @@
+/* Reset links */
+a {
+  color:inherit;
+  text-decoration:underline;
+}
+
 * {
   box-sizing: border-box;
 }
