@@ -1,5 +1,12 @@
 console.log("App starting...");
 
+// -------------------- MOBILE VIEWPORT FIX --------------------
+function setVh() {
+  document.documentElement.style.setProperty("--vh", window.innerHeight * 0.01 + "px");
+}
+setVh();
+window.addEventListener("resize", setVh);
+
 // Firebase imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
