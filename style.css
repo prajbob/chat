@@ -243,14 +243,47 @@ button:hover {
   }
   .sidebar {
     width:100%;
-    height:80px;
+    height:auto;
+    max-height:48px;
     display:flex;
     flex-direction:row;
+    align-items:center;
     overflow-x:auto;
+    overflow-y:hidden;
+    padding:6px 10px;
+    gap:12px;
+    border-right:none;
+    border-bottom:1px solid #1e1e1e;
+    scrollbar-width:none;
+  }
+  .sidebar::-webkit-scrollbar {
+    display:none;
+  }
+  .sidebar strong {
+    margin-bottom:0;
+    white-space:nowrap;
+  }
+  .friend-item {
+    white-space:nowrap;
+    padding:2px 8px;
+    border-radius:12px;
+    border:1px solid #2a2a2a;
+  }
+  .friend-item.active {
+    border-color:#555;
   }
   .chat-container {
     flex:1;
-    height:auto;
     overflow:hidden;
+  }
+  textarea#message {
+    font-size:16px;
+  }
+  .button-row button {
+    padding:8px 4px;
+    font-size:12px;
+  }
+  .chat-header {
+    font-size:12px;
   }
 }
