@@ -118,7 +118,7 @@ onAuthStateChanged(auth, async (user) => {
       loadFriendList();
     } else {
       // Friend: jump straight into convo with owner
-      document.getElementById("onlineUsers").style.display = "none";
+      document.querySelector(".sidebar-wrap").style.display = "none";
       // Pre-fetch owner username so header shows instantly
       if (!uidToUsername[OWNER_UID]) {
         const ownerSnap = await getDoc(doc(db, "users", OWNER_UID));
@@ -135,6 +135,29 @@ onAuthStateChanged(auth, async (user) => {
     currentConvId = null;
   }
 });
+
+// -------------------- SETTINGS MENU --------------------
+window.toggleSettings = function(e) {
+  if (e) e.stopPropagation();
+  const menu = document.getElementById("settingsMenu");
+  if (!menu) return;
+  const isOpen = menu.style.display === "block";
+  menu.style.display = isOpen ? "none" : "block";
+  if (!isOpen) {
+    setTimeout(() => document.addEventListener("click", (ev) => {
+      if (!menu.contains(ev.target)) menu.style.display = "none";
+    }, { once: true }), 0);
+  }
+};
+
+// -------------------- IMAGE LIGHTBOX --------------------
+window.openLightbox = function(src) {
+  const overlay = document.createElement("div");
+  overlay.className = "lightbox-overlay";
+  overlay.innerHTML = `<img class="lightbox-img" src="${src}"/>`;
+  overlay.onclick = () => overlay.remove();
+  document.body.appendChild(overlay);
+};
 
 // -------------------- WHATS NEW --------------------
 const CHAT_VERSION = "2.0";
@@ -487,7 +510,7 @@ function loadMessages(convId) {
         div.className = "msg " + (isMe ? "me" : "") + (isImage ? " msg-has-image" : "");
         div.dataset.id = msgId;
         const contentHtml = isImage
-          ? `<img class="msg-img" src="${data.imageUrl}" alt="image" onclick="window.open(this.src, '_blank')"/>`
+          ? `<img class="msg-img" src="${data.imageUrl}" alt="image" onclick="openLightbox(this.src)"/>`
           : `<span class="msg-text">${linkify(data.text)}</span>`;
 
         const editedTag = data.edited ? '<span class="msg-edited">edited</span>' : "";
